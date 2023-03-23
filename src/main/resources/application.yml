@@ -1,0 +1,35 @@
+server:
+  port: 8095
+app:
+  kafka:
+    topic:
+      default-name: users.transactions
+      retention: 7d
+    deadletter:
+      retention: 28d
+      suffix: .DLT
+    backoff:
+      initial-interval: 500ms
+      max-interval: 2s
+      max-retries: 5
+      multiplier: 1.5
+
+spring:
+  application:
+    name: hands-on-spring-kafka
+  kafka:
+    bootstrap-servers: localhost:19092
+    consumer:
+      group-id: user-trx-batch
+      max-poll-records: 20
+
+  datasource:
+    url: jdbc:h2:mem:mydb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
